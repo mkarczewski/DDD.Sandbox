@@ -21,16 +21,6 @@ namespace DDD.Sandbox.Modules.Employee.Service
 
             emp.ChangeAddress(request.EmployeeFile.Address);
             emp.ChangePersonals(request.EmployeeFile.Personals);
-
-            var engToDelete = emp.EngagementItems
-                .Where(x => !request.EmployeeFile.EngagementItems.Any(i => i.Id == x.Id));
-
-            var engToInsert = request.EmployeeFile.EngagementItems
-                .Where(x => !emp.EngagementItems.Any(i => i.Id == x.Id));
-
-            var engToEdit = request.EmployeeFile.EngagementItems
-                .Where(x => emp.EngagementItems.Any(i => i.Id == x.Id));
-
             emp.ApplyEngagementChanges(GetMaintainerForCountry(emp), request.EmployeeFile.EngagementItems);
 
             return new UpdateEmployeeFileResponse()
